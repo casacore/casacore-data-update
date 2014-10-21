@@ -10,6 +10,7 @@ maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
 import re
 from ftplib import FTP
 import os
+import sys
 import tarfile
 import shutil
 from datetime import datetime
@@ -44,6 +45,8 @@ if not os.access(base_file, os.R_OK):
     conn.cwd(subdir)
     conn.retrbinary(cmd='RETR %s' % base_file, callback=downloaded.write)
     downloaded.close()
+else:
+    print('we already have latest version')
 
 new_dir = 'casacore-data-' + str(latest)
 if os.access(new_dir, os.X_OK):
@@ -77,6 +80,15 @@ f.write(content)
 f.close()
 print(content)
 
+os.chdir(new_dir)
 print('building package')
-call('dpkg-buildpackage')
+if call(['dpkg-buildpackage']):
+    sys.exit(1)
 
+print('building source package')
+if call(['debuild', '-sa', '-S']):
+    sys.exit(1)
+
+print('uploading')
+if call(['dput', 'ppa:ska-sa/main', '../casacore-data_%s-1trusty_source.changes' % latest]):
+    sys.exit(1)

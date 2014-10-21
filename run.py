@@ -68,9 +68,9 @@ shutil.copytree('debian', os.path.join(new_dir, 'debian'))
 print('updating debian changelog')
 f = open('debian/changelog', 'r')
 content = "".join(f.readlines())\
-                .replace('{{ version }}', str(latest))\
-                 replace('{{ maintainer }}', maintainer)\
-                .replace('{{ timestamp }}', now())
+    .replace('{{ version }}', str(latest))\
+    .replace('{{ maintainer }}', maintainer)\
+    .replace('{{ timestamp }}', now())
 f.close()
 f = open(os.path.join(new_dir, 'debian/changelog'), 'w')
 f.write(content)

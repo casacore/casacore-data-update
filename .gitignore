@@ -2,3 +2,10 @@ casacore-data_*.org.tar.gz
 WSRT_Measures_*-000001.ztar
 casacore-data-*/
 casacore-data_*.orig.tar.gz
+casacore-data_*-1trusty.debian.tar.gz
+casacore-data_*-1trusty.dsc
+casacore-data_*-1trusty_all.deb
+casacore-data_*-1trusty_amd64.changes
+casacore-data_*-1trusty_source.build
+casacore-data_*-1trusty_source.changes
+casacore-data_*-1trusty_source.ppa.upload

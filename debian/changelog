@@ -2,6 +2,5 @@ casacore-data ({{ version }}-1trusty) trusty; urgency=medium
 
   * new upstream release
 
- -- {{ maintainer }} {{ timestamp }}
-
+ -- {{ maintainer }}  {{ timestamp }}
 

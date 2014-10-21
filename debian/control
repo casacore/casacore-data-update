@@ -1,0 +1,13 @@
+Source: casacore-data
+Section: libs
+Priority: extra
+Maintainer: Gijs Molenaar <gijs@pythonic.nl>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.4
+Homepage: https://code.google.com/p/casacore/
+Vcs-Browser: https://github.com/gijzelaerr/casacore-data
+
+Package: casacore-data
+Architecture: all
+Depends: ${misc:Depends}
+Description: Casacore data files

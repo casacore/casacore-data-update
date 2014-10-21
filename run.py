@@ -1,4 +1,4 @@
-#!env python3
+#!env python2
 # coding: utf-8
 
 server = 'ftp.astron.nl'

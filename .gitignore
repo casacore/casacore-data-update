@@ -9,3 +9,5 @@ casacore-data_*-1trusty_amd64.changes
 casacore-data_*-1trusty_source.build
 casacore-data_*-1trusty_source.changes
 casacore-data_*-1trusty_source.ppa.upload
+casacore-data_*-1trusty.debian.tar.xz
+

@@ -5,6 +5,7 @@ subdir = '/outgoing/Measures/'
 grammar = 'WSRT_Measures_%s-000001.ztar'
 storage = 'latest.pickle'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
+ppa_repo = 'radio-astro/main'
 
 import re
 from ftplib import FTP
@@ -93,5 +94,5 @@ if call(['debuild', '-sa', '-S']):
     sys.exit(1)
 
 print('uploading')
-if call(['dput', 'ppa:ska-sa/main', '../casacore-data_%s-1trusty_source.changes' % latest]):
+if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1trusty_source.changes' % latest]):
     sys.exit(1)

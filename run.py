@@ -1,5 +1,4 @@
-#!env python2
-# coding: utf-8
+#!/usr/bin/env python
 
 server = 'ftp.astron.nl'
 subdir = '/outgoing/Measures/'
@@ -23,6 +22,10 @@ from subprocess import call
 def now():
     return formatdate(mktime(datetime.now(timezone('Africa/Johannesburg')).timetuple()))
 
+
+HERE = os.path.dirname(__file__)
+print('changing dir to ' + HERE)
+os.chdir(HERE)
 
 print('connect to the server')
 conn = FTP(server, user='anonymous', passwd='info@astron.nl')

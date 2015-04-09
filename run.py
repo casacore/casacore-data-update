@@ -72,27 +72,31 @@ with tarfile.open('casacore-data_%s.orig.tar.gz' % str(latest), "w:gz") as tar:
 print('copying debian template')
 shutil.copytree('debian', os.path.join(new_dir, 'debian'))
 
-print('updating debian changelog')
-f = open('debian/changelog', 'r')
-content = "".join(f.readlines())\
-    .replace('{{ version }}', str(latest))\
-    .replace('{{ maintainer }}', maintainer)\
-    .replace('{{ timestamp }}', now())
-f.close()
-f = open(os.path.join(new_dir, 'debian/changelog'), 'w')
-f.write(content)
-f.close()
-print(content)
+for suit in ('precise', 'trusty', 'utopic', 'vivid'):
+    print('updating debian changelog for ' + suit)
+    f = open('debian/changelog', 'r')
+    content = "".join(f.readlines())\
+        .replace('{{ version }}', str(latest))\
+        .replace('{{ maintainer }}', maintainer)\
+        .replace('{{ timestamp }}', now())\
+        .replace('{{ suit }}', suit)
+    f.close()
+    f = open(os.path.join(new_dir, 'debian/changelog'), 'w')
+    f.write(content)
+    f.close()
+    print(content)
 
-os.chdir(new_dir)
-print('building package')
-if call(['dpkg-buildpackage']):
-    sys.exit(1)
+    os.chdir(new_dir)
+    print('building package for ' + suit)
+    if call(['dpkg-buildpackage']):
+        sys.exit(1)
 
-print('building source package')
-if call(['debuild', '-sa', '-S']):
-    sys.exit(1)
+    print('building source package' + suit)
+    if call(['debuild', '-sa', '-S']):
+        sys.exit(1)
 
-print('uploading')
-if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1trusty_source.changes' % latest]):
-    sys.exit(1)
+    print('uploading for ' + suit)
+    if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1%s_source.changes' % (latest, suit)]):
+        sys.exit(1)
+
+    os.chdir('..')

@@ -3,9 +3,9 @@
 server = 'ftp.astron.nl'
 subdir = '/outgoing/Measures/'
 grammar = 'WSRT_Measures_%s-000001.ztar'
-storage = 'latest.pickle'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
 ppa_repo = 'radio-astro/main'
+releases = ('precise', 'trusty', 'utopic', 'vivid')
 
 import re
 from ftplib import FTP
@@ -52,27 +52,36 @@ if not os.access(base_file, os.R_OK):
 else:
     print('we already have latest version')
 
+
 new_dir = 'casacore-data-' + str(latest)
-if os.access(new_dir, os.X_OK):
-    print('removing old extracted data')
-    shutil.rmtree(new_dir)
-    
-print('extracting tarbal')
-os.mkdir(new_dir)
-os.chdir(new_dir)
-open_tar = tarfile.open('../' + base_file)
-for item in open_tar:
-    open_tar.extract(item)
-os.chdir('..')
+tarball = 'casacore-data_%s.orig.tar.gz' % str(latest)
+if os.access(tarball, os.R_OK):
+    print '%s already exists, not creating' % tarball
+else:
+    if os.access(new_dir, os.X_OK):
+        print('removing old extracted data')
+        shutil.rmtree(new_dir)
+        
+    print('extracting tarbal')
+    os.mkdir(new_dir)
+    os.chdir(new_dir)
+    open_tar = tarfile.open('../' + base_file)
+    for item in open_tar:
+        open_tar.extract(item)
+    os.chdir('..')
 
-print('create new tarball')
-with tarfile.open('casacore-data_%s.orig.tar.gz' % str(latest), "w:gz") as tar:
-    tar.add(new_dir, arcname=os.path.basename(new_dir))
-    
-print('copying debian template')
-shutil.copytree('debian', os.path.join(new_dir, 'debian'))
+    print('create new tarball')
+    with tarfile.open('casacore-data_%s.orig.tar.gz' % str(latest), "w:gz") as tar:
+        tar.add(new_dir, arcname=os.path.basename(new_dir))
 
-for suit in ('precise', 'trusty', 'utopic', 'vivid'):
+    
+if os.access( os.path.join(new_dir, 'debian'), os.X_OK):
+    print('work folder already has debian folder, skipping copy')
+else:
+    print('copying debian template')
+    shutil.copytree('debian', os.path.join(new_dir, 'debian'))
+
+for suit in releases:
     print('updating debian changelog for ' + suit)
     f = open('debian/changelog', 'r')
     content = "".join(f.readlines())\

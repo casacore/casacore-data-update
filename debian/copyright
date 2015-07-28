@@ -1,6 +1,6 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: casacore-data
-Source: https://code.google.com/p/casacore/
+Source: https://github.com/casacore/casacore-data/
 
 License: LGPL-3.0+
  This package is free software; you can redistribute it and/or

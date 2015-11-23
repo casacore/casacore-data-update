@@ -5,7 +5,7 @@ subdir = '/outgoing/Measures/'
 grammar = 'WSRT_Measures_%s-000001.ztar'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
 ppa_repo = 'radio-astro/main'
-releases = ('precise', 'trusty', 'utopic', 'vivid')
+releases = ('precise', 'trusty', 'vivid', 'wily')
 
 import re
 from ftplib import FTP

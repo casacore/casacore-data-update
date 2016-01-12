@@ -1,0 +1,27 @@
+language: generic
+sudo: true
+dist: trusty
+before_install:
+- sudo apt-get update
+- sudo apt-get install debhelper build-essential python-pip
+- sudo pip install -r requirements.txt
+install:
+- true
+script:
+- ./run.py
+- ls *.deb
+- pwd
+- ls -al
+before_deploy:
+- ls *.deb
+- pwd
+- ls -al
+deploy:
+  provider: bintray
+  file: descriptor.json
+  skip_cleanup: true
+  user: gijzelaerr
+  key:
+    secure: dfjIHElhuMLyoA6n3PKQJfmOpThUGYtlo+tx/nrcTJa8irgKUGs/zxbzc0h0NdIQimjOwnv2+axZqW7cQ5/+2TqIh4HKr34qXGDDWoDWgAgF6znAg6JtNH1EWuWqiAh8KZe7nHGS5MK3Ypa+fRHyRkVYfxCOzTog0UcpQcFeU10=
+  on: bintray
+

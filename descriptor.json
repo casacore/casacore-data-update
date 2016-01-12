@@ -1,0 +1,22 @@
+{
+    "package": {
+        "name": "casacore-data",
+        "repo": "main",
+        "subject": "radio-astro"
+    },
+
+    "version": {
+        "name": "weekly",
+        "gpgSign": true
+    },
+    "files":
+    [{"includePattern": "./(casacore-data.*\\.deb$)", "uploadPattern": "$1",
+        "matrixParams": {
+            "deb_distribution": "stable",
+            "deb_component": "main",
+            "deb_architecture": "amd64",
+              "publish": true
+        }
+    }
+    ]
+}

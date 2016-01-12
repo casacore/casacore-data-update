@@ -5,7 +5,7 @@ subdir = '/outgoing/Measures/'
 grammar = 'WSRT_Measures_%s-000001.ztar'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
 ppa_repo = 'radio-astro/main'
-releases = ('precise', 'trusty', 'vivid', 'wily')
+releases = ('trusty',)
 
 import re
 from ftplib import FTP
@@ -97,15 +97,7 @@ for suit in releases:
 
     os.chdir(new_dir)
     print('building package for ' + suit)
-    if call(['dpkg-buildpackage']):
-        sys.exit(1)
-
-    print('building source package' + suit)
-    if call(['debuild', '-sa', '-S']):
-        sys.exit(1)
-
-    print('uploading for ' + suit)
-    if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1%s_source.changes' % (latest, suit)]):
+    if call(['dpkg-buildpackage', '-us', '-uc']):
         sys.exit(1)
 
     os.chdir('..')

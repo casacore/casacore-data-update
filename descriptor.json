@@ -15,7 +15,7 @@
             "deb_distribution": "stable",
             "deb_component": "main",
             "deb_architecture": "amd64",
-              "publish": true
+              "publish": "1"
         }
     }
     ]

@@ -2,4 +2,9 @@
 
 Updates the casacore data package here
 
-https://launchpad.net/~radio-astro/+archive/ubuntu/ppa
+https://launchpad.net/~kernsuite
+
+requirements:
+
+$ apt-get install python-tz dpkg-dev devscripts dput 
+

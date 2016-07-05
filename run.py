@@ -1,11 +1,11 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 server = 'ftp.astron.nl'
 subdir = '/outgoing/Measures/'
 grammar = 'WSRT_Measures_%s-000001.ztar'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
-ppa_repo = 'radio-astro/main'
-releases = ('precise', 'trusty', 'vivid', 'wily')
+ppa_repo = 'kernsuite/kern-dev'
+releases = ('xenial',)
 
 import re
 from ftplib import FTP

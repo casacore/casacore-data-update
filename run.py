@@ -105,7 +105,7 @@ for suit in releases:
         sys.exit(1)
 
     print('uploading for ' + suit)
-    if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1%s_source.changes' % (latest, suit)]):
+    if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1kern1_source.changes' % (latest)]):
         sys.exit(1)
 
     os.chdir('..')

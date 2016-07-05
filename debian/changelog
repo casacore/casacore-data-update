@@ -1,4 +1,4 @@
-casacore-data ({{ version }}-1{{ suit }}) {{ suit }}; urgency=medium
+casacore-data ({{ version }}-1kern1) {{ suit }}; urgency=medium
 
   * new upstream release
 

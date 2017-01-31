@@ -2,10 +2,14 @@
 
 server = 'ftp.astron.nl'
 subdir = '/outgoing/Measures/'
-grammar = 'WSRT_Measures_%s-000001.ztar'
+grammar = 'WSRT_Measures_%s-\d{6}.ztar'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
-ppa_repo = 'kernsuite/kern-dev'
-releases = ('xenial',)
+
+repos = {
+        'xenial': ['kernsuite/kern-dev', 'kernsuite/kern-1'],
+        'trusty': ['radio-astro/main']
+}
+
 
 import re
 from ftplib import FTP
@@ -33,16 +37,21 @@ conn = FTP(server, user='anonymous', passwd='info@astron.nl')
 
 print ('get last version')
 latest = -1
+latest_path = False
 regex = re.compile(subdir + grammar % '(\d{8})')
 for i in conn.nlst(subdir):
+    print i
     match = regex.match(i)
     if match:
         timestamp = int(match.group(1))
         if timestamp > latest:
             latest = timestamp
-print(latest)
+            latest_path = match.group(0)
 
-base_file = grammar % latest
+print('latest version on ftp is: ' + latest_path)
+
+base_file = latest_path.split('/')[-1]
+
 if not os.access(base_file, os.R_OK):
     print('downloading ' + base_file)
     downloaded = open(base_file, 'wb')
@@ -81,14 +90,14 @@ else:
     print('copying debian template')
     shutil.copytree('debian', os.path.join(new_dir, 'debian'))
 
-for suit in releases:
-    print('updating debian changelog for ' + suit)
+for suite, ppas in repos.items():
+    print('updating debian changelog for ' + suite)
     f = open('debian/changelog', 'r')
     content = "".join(f.readlines())\
         .replace('{{ version }}', str(latest))\
         .replace('{{ maintainer }}', maintainer)\
         .replace('{{ timestamp }}', now())\
-        .replace('{{ suit }}', suit)
+        .replace('{{ suit }}', suite)
     f.close()
     f = open(os.path.join(new_dir, 'debian/changelog'), 'w')
     f.write(content)
@@ -96,16 +105,17 @@ for suit in releases:
     print(content)
 
     os.chdir(new_dir)
-    print('building package for ' + suit)
+    print('building package for ' + suite)
     if call(['dpkg-buildpackage']):
         sys.exit(1)
 
-    print('building source package' + suit)
+    print('building source package' + suite)
     if call(['debuild', '-sa', '-S']):
         sys.exit(1)
 
-    print('uploading for ' + suit)
-    if call(['dput', 'ppa:%s' % ppa_repo, '../casacore-data_%s-1kern1_source.changes' % (latest)]):
-        sys.exit(1)
+    print('uploading for ' + suite)
+    for ppa in ppas:
+        if call(['dput', '-f', 'ppa:%s' % ppa, '../casacore-data_%s-1kern1_source.changes' % (latest)]):
+            sys.exit(1)
 
     os.chdir('..')

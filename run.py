@@ -6,8 +6,9 @@ grammar = 'WSRT_Measures_%s-\d{6}.ztar'
 maintainer = 'Gijs Molenaar (launchpad ppa build key) <gijs@pythonic.nl>'
 
 repos = {
-        'xenial': ['kernsuite/kern-dev', 'kernsuite/kern-1'],
-        'trusty': ['radio-astro/main']
+        'xenial': ['kernsuite/kern-dev', 'kernsuite/kern-1', 'kernsuite/kern-2'],
+        'trusty': ['radio-astro/main'],
+        'zesty': ['kernsuite/zesty'],
 }
 
 
